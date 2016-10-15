@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'>
+    <title>Wemos : Home</title>
+
+    <!-- Pas de changement d'échelle pour les navigateurs de mobile-->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <!-- Mode webapp activé pour les navigateurs compatibles-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link rel='stylesheet' type='text/css' href='style.css'>
+    <script defer src='app.js'></script>
+    <script defer src='actions.js'></script>
+  </head>
+
+  <body>
+    <div class='card'>
+
+      <input name='D5' class='slider slider--blue'    type='range' value='64' max='255' min='0' step='1' disabled>
+      <!-- <input name='D5' class='slider slider--green'   type='range' value='64' max='255' min='0' step='1' disabled> -->
+      <!-- <input name='D6' class='slider slider--yellow'  type='range' value='64' max='255' min='0' step='1' disabled> -->
+      <!-- <input name='D7' class='slider slider--red'     type='range' value='64' max='255' min='0' step='1' disabled> -->
+
+      <input name='D6' class='slider slider--black' type='range' value='90' max='165' min='15' step='1' disabled>
+      <input name='D7' class='slider slider--black' type='range' value='90' max='105' min='75' step='1' disabled>
+      <input name='D8' class='slider slider--black' type='range' value='90' max='115' min='65' step='1' disabled>
+
+      <!-- <meter class="meter-bar meter-bar--disabled" value="300" min="128" max="1024"></meter> -->
+    </div>
+  </body>
+</html>

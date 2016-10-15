@@ -1,0 +1,46 @@
+{
+    "name": "WebSockets", 
+    "repository": {
+        "url": "https://github.com/Links2004/arduinoWebSockets.git", 
+        "type": "git"
+    }, 
+    "platforms": [
+        "atmelavr", 
+        "atmelsam", 
+        "timsp430", 
+        "titiva", 
+        "teensy", 
+        "freescalekinetis", 
+        "ststm32", 
+        "nordicnrf51", 
+        "nxplpc", 
+        "espressif", 
+        "siliconlabsefm32", 
+        "linux_arm", 
+        "native", 
+        "intel_arc32"
+    ], 
+    "frameworks": [
+        "arduino"
+    ], 
+    "version": "ab0d8ff526", 
+    "authors": [
+        {
+            "maintainer": true, 
+            "name": "Markus Sattler", 
+            "url": "https://github.com/Links2004", 
+            "email": null
+        }
+    ], 
+    "keywords": [
+        "wifi", 
+        "http", 
+        "web", 
+        "server", 
+        "client", 
+        "websocket"
+    ], 
+    "exclude": "tests", 
+    "id": 549, 
+    "description": "WebSocket Server and Client for Arduino based on RFC6455"
+}
