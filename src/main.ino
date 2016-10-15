@@ -17,6 +17,8 @@
 #include <ArduinoJson.h>
 #include <Servo.h>
 
+#include "config.h"
+
 
 // static const uint8_t D0   = 16;
 // static const uint8_t D1   = 5;
@@ -69,9 +71,6 @@ Adafruit_SSD1306 display(OLED_RESET);
 
 #define IS_DEBUG_MODE         0
 #define HANDLING_PER_SECOND  50
-
-const char* SSID      = "ssid";
-const char* PASSWORD  = "password";
 
 
 byte mac[6];
