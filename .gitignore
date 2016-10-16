@@ -4,3 +4,4 @@
 .piolibdeps
 
 *-no-upload/
+src/config.h
