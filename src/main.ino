@@ -5,8 +5,6 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "3x5font5pt7b.h"
-#include "minifont.h"
 
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
@@ -20,17 +18,6 @@
 #include "config.h"
 
 
-// static const uint8_t D0   = 16;
-// static const uint8_t D1   = 5;
-// static const uint8_t D2   = 4;
-// static const uint8_t D3   = 0;
-// static const uint8_t D4   = 2;
-// static const uint8_t D5   = 14;
-// static const uint8_t D6   = 12;
-// static const uint8_t D7   = 13;
-// static const uint8_t D8   = 15;
-// static const uint8_t RX   = 3;
-// static const uint8_t TX   = 1;
 
 const char* WEMOS_PIN[] = {
   "D3",       // GPIO 0
@@ -60,13 +47,7 @@ const char* WEMOS_PIN[] = {
 
 // SCL GPIO5 (D2)
 // SDA GPIO4 (D1)
-#define OLED_RESET 0  // GPIO0 (D3)
-Adafruit_SSD1306 display(OLED_RESET);
-
-#if (SSD1306_LCDHEIGHT != 48)
-#error("Height incorrect, please fix Adafruit_SSD1306.h!");
-#endif
-
+Adafruit_SSD1306 display;
 
 
 #define IS_DEBUG_MODE         0
@@ -80,9 +61,6 @@ WebSocketsServer webSocket = WebSocketsServer(81);
 int numberOfHandlingThisSecond = 0;
 unsigned long nextResetTime;
 
-const int LED_WIFI_CONNECTED = D3;
-// const int LED_OK      = D1;
-// const int LED_NOK     = D2;
 
 const int SETUP_BUTTON_PIN = A0;
 #define APP_MODE_NORMAL 0
@@ -92,11 +70,6 @@ int appMode = APP_MODE_NORMAL;
 const int SENSOR_PIN     = A0;
 int sensorValue          = 0;
 const int NUM_OF_SENSORS = 0;
-
-const int LED_PINS[]     = {D5};
-int ledStates[]          = {127};
-const int NUM_OF_LEDS    = sizeof(ledStates)/sizeof(int);
-// const int NUM_OF_LEDS    = 0;
 
 const int SERVO_PINS[]   = {D6, D7, D8};
 int servoPositions[]     = {90, 90, 90};
@@ -115,11 +88,6 @@ void initState() {
     Serial.println(String("Sensor 0 on ") + WEMOS_PIN[SENSOR_PIN] + " -> OK");
   }
 
-  for (int i = 0; i < NUM_OF_LEDS; i++) {
-    pinMode(LED_PINS[i], OUTPUT);
-    Serial.println("LED " + String(i) + " on " + WEMOS_PIN[LED_PINS[i]] + " -> OK");
-  }
-
   for (int i = 0; i < NUM_OF_SERVOS; i++) {
     servos[i].attach(SERVO_PINS[i]);
     Serial.println("Servo " + String(i) + " on " + WEMOS_PIN[SERVO_PINS[i]] + " -> OK");
@@ -129,10 +97,6 @@ void initState() {
 
 
 void applyState() {
-  for (int i = 0; i < NUM_OF_LEDS; i++) {
-    analogWrite(LED_PINS[i], ledStates[i]);
-  }
-
   for (int i = 0; i < NUM_OF_SERVOS; i++) {
     servos[i].write(servoPositions[i]);
   }
@@ -144,19 +108,9 @@ void updateState(JsonObject& json) {
   if (sizeof(json["data"]) > 0) {
     int jsonIteration = 0;
 
-    for (int i = 0; i < NUM_OF_LEDS; i++) {
-      ledStates[i]  = json["data"][jsonIteration++];
-    }
-
     for (int i = 0; i < NUM_OF_SERVOS; i++) {
       servoPositions[i] = json["data"][jsonIteration++];
     }
-
-    // node_type dataNode = json.getNodeAt("data");
-
-    // if (json["data"].containsKey("D5")) {
-    //   ledStates[0]  = json["data"]["D5"];
-    // }
   }
 }
 
@@ -165,11 +119,6 @@ void updateState(JsonObject& json) {
 void sendState() {
   String response = "{\"data\": [";
   int element = 0;
-
-  for (int i = 0; i < NUM_OF_LEDS; i++) {
-    if (element++ > 0) { response += ","; }
-    response += String(ledStates[i]);
-  }
 
   for (int i = 0; i < NUM_OF_SERVOS; i++) {
     if (element++ > 0) { response += ","; }
@@ -198,7 +147,6 @@ void sendFile(String filename, String typeMime) {
   File f = SPIFFS.open(filename, "r");
 
   if (!f) {
-    // digitalWrite(LED_OK, 0);
     Serial.println("file open failed");
     handleNotFound();
     return;
@@ -214,7 +162,6 @@ void sendFile(String filename, String typeMime) {
  * Homepage
  */
 void handleRootPage() {
-  // digitalWrite(LED_OK, 1);
   Serial.println(server.uri());
 
   String filepath;
@@ -229,7 +176,6 @@ void handleRootPage() {
       break;
   }
   sendFile(filepath, "text/html");
-  // digitalWrite(LED_OK, 0);
 }
 
 
@@ -237,10 +183,8 @@ void handleRootPage() {
  * style.css
  */
 void handleStyleCss() {
-  // digitalWrite(LED_OK, 1);
   Serial.println(server.uri());
   sendFile("/style.css", "text/css");
-  // digitalWrite(LED_OK, 0);
 }
 
 
@@ -248,10 +192,8 @@ void handleStyleCss() {
  * app.js
  */
 void handleAppJs() {
-  // digitalWrite(LED_OK, 1);
   Serial.println(server.uri());
   sendFile("/app.js", "application/json");
-  // digitalWrite(LED_OK, 0);
 }
 
 
@@ -259,10 +201,8 @@ void handleAppJs() {
  * actions.js
  */
 void handleActionsJs() {
-  // digitalWrite(LED_OK, 1);
   Serial.println(server.uri());
   sendFile("/actions.js", "application/json");
-  // digitalWrite(LED_OK, 0);
 }
 
 
@@ -270,7 +210,6 @@ void handleActionsJs() {
  * Page not found
  */
 void handleNotFound() {
-  // digitalWrite(LED_NOK, 1);
   String message = "File Not Found\n\n";
   message += "URI: ";
   message += server.uri();
@@ -283,7 +222,6 @@ void handleNotFound() {
     message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
   }
   server.send(404, "text/plain", message);
-  // digitalWrite(LED_NOK, 0);
 }
 
 
@@ -292,7 +230,6 @@ void handleNotFound() {
  * WEBSOCKET EVENT LISTENER
 \***************************/
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght) {
-  // digitalWrite(LED_OK, 1);
   numberOfHandlingThisSecond++;
 
   switch(type) {
@@ -320,10 +257,8 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
           JsonObject& jsonObject = jsonBuffer.parseObject((char*)payload);
 
           if (!jsonObject.success()) {
-            // digitalWrite(LED_NOK, 1);
             Serial.println("parseObject() failed");
             delay(250);
-            // digitalWrite(LED_NOK, 0);
             break;
           }
 
@@ -334,8 +269,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
       }
       break;
   }
-
-  // digitalWrite(LED_OK, 0);
 }
 
 
@@ -461,17 +394,9 @@ void setup(void){
   Serial.println("");
 
   // Init OLED DISPLAY
-  // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 64x48)
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C
 
   // Init Board.
-  pinMode(LED_WIFI_CONNECTED, OUTPUT);
-  // pinMode(LED_OK, OUTPUT);
-  // pinMode(LED_NOK, OUTPUT);
-  // pinMode(SETUP_BUTTON_PIN, INPUT);
-
-  // digitalWrite(LED_OK, 0);
-  // digitalWrite(LED_NOK, 0);
 
   if (analogRead(SETUP_BUTTON_PIN) > 512) {
     appMode = APP_MODE_SETUP;
@@ -498,23 +423,20 @@ void setup(void){
 
   // Wait for connection.
   while (WiFi.status() != WL_CONNECTED) {
-    // fadeInAndOut(LED_WIFI_CONNECTED, 500);
     displayLoaderOnce(500);
-
     Serial.print(".");
   }
 
   displayEndOfLoader(400);
 
-
   IPAddress myIP = WiFi.localIP();
   // /CLIENT MODE
+
 
 
   WiFi.macAddress(mac);
 
 
-  // fadeIn(LED_WIFI_CONNECTED, 2000);
   Serial.println("");
   Serial.print("Connected to ");
   Serial.println(SSID);
@@ -534,14 +456,6 @@ void setup(void){
   Serial.print(":");
   Serial.println(mac[5],HEX);
 
-  // display.clearDisplay();
-  // display.setTextSize(1);
-  // display.setTextColor(WHITE);
-  // display.setCursor(0, 0);
-  // display.println("- ON -----");
-  // display.println(SSID);
-  // display.display();
-
   display.clearDisplay();
 
   if (appMode == APP_MODE_SETUP) {
@@ -551,10 +465,16 @@ void setup(void){
     display.println("SETUP MODE");
   }
 
-  setMinifontCursor(4, 21);
-  printMinifontIp(myIP);
-  setMinifontCursor(0, 28);
-  printMinifontIo();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 7);
+
+  display.print("SSID: ");
+  display.println(SSID);
+
+  display.print("IP:   ");
+  display.println(myIP);
+
   display.display();
 
 
@@ -579,11 +499,9 @@ void setup(void){
  * LOOP
 \***************************/
 void loop(){
-  while(1) {
-    server.handleClient();
-    webSocket.loop();
-    resetHandlingCounter();
+  server.handleClient();
+  webSocket.loop();
+  resetHandlingCounter();
 
-    // sendState();
-  }
+  // sendState();
 }

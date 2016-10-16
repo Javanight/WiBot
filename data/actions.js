@@ -31,13 +31,13 @@ const LEGS_RIGHT_MAX     = 115;
 
 function stepForward() {
   commandList = [
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
-    [ 128,  LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],     // demi avance gauche
-    [ 32,   LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],
-    [ 128,  LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],     // avance droite
-    [ 32,   LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],
-    [ 128,  LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],  // demi avance gauche
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],     // demi avance gauche
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],     // avance droite
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],  // demi avance gauche
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
   ];
   execCommandList(commandList);
 }
@@ -45,13 +45,13 @@ function stepForward() {
 
 function stepBackward() {
   commandList = [
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
-    [ 128,  LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],     // demi avance gauche
-    [ 32,   LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],
-    [ 128,  LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],     // avance droite
-    [ 32,   LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],
-    [ 128,  LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],  // demi avance gauche
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],     // demi avance gauche
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],     // avance droite
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],  // demi avance gauche
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
   ];
   execCommandList(commandList);
 }
@@ -59,13 +59,13 @@ function stepBackward() {
 
 function turnLeft() {
   commandList = [
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
-    [ 128,  LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],     // demi step tour
-    [ 32,   LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],
-    [ 128,  LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],     // step tour
-    [ 32,   LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],
-    [ 128,  LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],  // demi step tour
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],     // demi step tour
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],     // step tour
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],  // demi step tour
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
   ];
   execCommandList(commandList);
 }
@@ -73,13 +73,13 @@ function turnLeft() {
 
 function turnRight() {
   commandList = [
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
-    [ 128,  LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],     // demi step tour
-    [ 32,   LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],
-    [ 128,  LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],     // step tour
-    [ 32,   LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],
-    [ 128,  LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],  // demi step tour
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MAX ],     // demi step tour
+    [ LEGS_LEFT_MIN,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MAX ],
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MIN,    LEGS_RIGHT_MIN ],     // step tour
+    [ LEGS_LEFT_MAX,     LEGS_MIDDLE_MAX,    LEGS_RIGHT_MIN ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],  // demi step tour
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
   ];
   execCommandList(commandList);
 }
@@ -88,13 +88,13 @@ function turnRight() {
 
 function command01() {
   commandList = [
-    [ 32,   LEGS_LEFT_MIN,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MAX ],
-    [ 128,  LEGS_LEFT_MAX,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MIN ],
+    [ LEGS_LEFT_MIN,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MAX ],
+    [ LEGS_LEFT_MAX,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MIN ],
 
-    [ 32,   LEGS_LEFT_MIN,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MAX ],
-    [ 128,  LEGS_LEFT_MAX,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MIN ],
+    [ LEGS_LEFT_MIN,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MAX ],
+    [ LEGS_LEFT_MAX,  LEGS_MIDDLE_CENTER,    LEGS_RIGHT_MIN ],
 
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
   ];
   execCommandList(commandList, 300);
 }
@@ -102,13 +102,13 @@ function command01() {
 
 function command02() {
   commandList = [
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
-    [ 128,  LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
 
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
-    [ 128,  LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MIN,    LEGS_RIGHT_CENTER ],
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_MAX,    LEGS_RIGHT_CENTER ],
 
-    [ 32,   LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
+    [ LEGS_LEFT_CENTER,  LEGS_MIDDLE_CENTER, LEGS_RIGHT_CENTER ]
   ];
   execCommandList(commandList, 300);
 }
