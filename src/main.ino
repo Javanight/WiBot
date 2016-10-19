@@ -74,9 +74,18 @@ const int NUM_OF_SENSORS = 0;
 
 const int SERVO_PINS[]   = {D6, D7, D8};
 int servoPositions[]     = {90, 90, 90};
+const int SERVO_MIN[]    = {65, 75, 65};
+const int SERVO_MAX[]    = {115, 105, 115};
 const int NUM_OF_SERVOS  = sizeof(servoPositions)/sizeof(int);
 Servo servos[NUM_OF_SERVOS];
 
+
+
+void updateServoPositionValue(int servoNum, int newValue) {
+  servoPositions[servoNum] = newValue;
+  servoPositions[servoNum] += SERVO_DELTA[servoNum];
+  servoPositions[servoNum] = constrain(servoPositions[servoNum], SERVO_MIN[servoNum], SERVO_MAX[servoNum]);
+}
 
 
 
@@ -110,7 +119,7 @@ void updateState(JsonObject& json) {
     int jsonIteration = 0;
 
     for (int i = 0; i < NUM_OF_SERVOS; i++) {
-      servoPositions[i] = json["data"][jsonIteration++];
+      updateServoPositionValue(i, json["data"][jsonIteration++]);
     }
   }
 }
@@ -123,7 +132,7 @@ void sendState() {
 
   for (int i = 0; i < NUM_OF_SERVOS; i++) {
     if (element++ > 0) { response += ","; }
-    response += String(servoPositions[i]);
+    response += String(servoPositions[i] - SERVO_DELTA[i]);
   }
 
   if (NUM_OF_SENSORS) {
@@ -460,11 +469,21 @@ void setup(void){
   }
 
 
+  // PIN
   generateNewPin();
 
+
+  // SERVOS
   initState();
+
+  for (int i = 0; i < NUM_OF_SERVOS; i++) {
+    updateServoPositionValue(i, servoPositions[i]);
+  }
+
   applyState();
 
+
+  // TIMER
   nextResetTime = millis() + 1000;
 
 

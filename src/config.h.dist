@@ -1,2 +1,5 @@
 const char* SSID      = "ssid";
 const char* PASSWORD  = "password";
+
+// {LEFT, MIDDLE, RIGHT}
+const int SERVO_DELTA[] = {0, 0, 0};
