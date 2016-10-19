@@ -57,6 +57,7 @@ Adafruit_SSD1306 display;
 byte mac[6];
 ESP8266WebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
+uint8_t wsClientNum;
 
 int numberOfHandlingThisSecond = 0;
 unsigned long nextResetTime;
@@ -141,6 +142,19 @@ void sendState() {
 
 
 /***************************\
+ * NEW CONNECTION PIN
+\***************************/
+String newConnectionPin;
+
+void generateNewPin() {
+  newConnectionPin = String(random(1000, 9999));
+}
+
+
+
+
+
+/***************************\
  * PAGES
 \***************************/
 void sendFile(String filename, String typeMime) {
@@ -164,18 +178,28 @@ void sendFile(String filename, String typeMime) {
 void handleRootPage() {
   Serial.println(server.uri());
 
-  String filepath;
+  String pin = server.arg("pin");
+  if (pin == newConnectionPin) {
+    webSocket.disconnect(wsClientNum);
+    generateNewPin();
+    updateInfoDisplay();
 
-  switch (appMode) {
-    case APP_MODE_NORMAL:
-      filepath = "/index.html";
-      break;
+    String filepath;
 
-    case APP_MODE_SETUP:
-      filepath = "/setup.html";
-      break;
+    switch (appMode) {
+      case APP_MODE_NORMAL:
+        filepath = "/index.html";
+        break;
+
+      case APP_MODE_SETUP:
+        filepath = "/setup.html";
+        break;
+    }
+
+    sendFile(filepath, "text/html");
+  } else {
+    handleNotFound();
   }
-  sendFile(filepath, "text/html");
 }
 
 
@@ -239,6 +263,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
 
     case WStype_CONNECTED:
       {
+        wsClientNum = num;
         IPAddress ip = webSocket.remoteIP(num);
         Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
 
@@ -385,6 +410,38 @@ void resetHandlingCounter() {
 
 
 
+
+/***************************\
+ * DISPLAY INFO
+\***************************/
+IPAddress myIP;
+
+void updateInfoDisplay() {
+  display.clearDisplay();
+
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 7);
+
+  display.print("SSID: ");
+  display.println(SSID);
+
+  display.print("IP:   ");
+  display.println(myIP);
+
+  display.println("---------------------");
+  display.println(" new connection pin:");
+  display.println("");
+  display.setTextSize(2);
+  display.print("/?pin=");
+  display.println(newConnectionPin);
+
+  display.display();
+}
+
+
+
+
 /***************************\
  * SETUP
 \***************************/
@@ -403,6 +460,7 @@ void setup(void){
   }
 
 
+  generateNewPin();
 
   initState();
   applyState();
@@ -429,7 +487,7 @@ void setup(void){
 
   displayEndOfLoader(400);
 
-  IPAddress myIP = WiFi.localIP();
+  myIP = WiFi.localIP();
   // /CLIENT MODE
 
 
@@ -465,17 +523,7 @@ void setup(void){
     display.println("SETUP MODE");
   }
 
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 7);
-
-  display.print("SSID: ");
-  display.println(SSID);
-
-  display.print("IP:   ");
-  display.println(myIP);
-
-  display.display();
+  updateInfoDisplay();
 
 
   // Define server routes.
